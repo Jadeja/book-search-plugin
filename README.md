@@ -1,6 +1,6 @@
 # book-search-plugin
 
-=== No Self Pings ===
+=== Book Search Panel ===
 Contributors: Kuldeep
 Tags: Book Search 
 Stable tag: 1
