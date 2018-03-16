@@ -23,6 +23,6 @@
 <br>
 <!-- <input type="hidden" id="code" name="code" value="<?php  echo $_SESSION['code'] ?>">
  --><table id="results" class="table">
-<tr><th>No</th><th>Book Name</th><th>Price</th><th>Auther</th><th>Publisher</th><th>Rating</th></tr>
+<tr><th>No</th><th>Book Name</th><th>Price</th><th>Author</th><th>Publisher</th><th>Rating</th></tr>
 <tr><td colspan="6" id="div1"> Empty </td></tr>
 </table>

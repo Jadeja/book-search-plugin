@@ -120,7 +120,6 @@ if ( !class_exists( 'LibBookSearch' ) ) {
 				echo "something is wrong !!";
 			}*/
 		}
-
 }
 
 	$LibBookSearchPlugin = new LibBookSearch();
@@ -129,9 +128,12 @@ if ( !class_exists( 'LibBookSearch' ) ) {
 	// activation
 	register_activation_hook( __FILE__, array( $LibBookSearchPlugin, 'activate' ) );
 
+	// for form CSRF 
 	 $_SESSION["code"] = uniqid();
+	 
 	 $jal_db_version = '1.0';
-
+	 
+	// to create table on plugin activation 
 	function jal_install() 
 	{
 		global $wpdb;
@@ -139,6 +141,7 @@ if ( !class_exists( 'LibBookSearch' ) ) {
 
 		$table_name = $wpdb->prefix . 'books';
 		
+		// db engine details 
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql="CREATE TABLE IF NOT EXISTS $table_name (
@@ -163,7 +166,7 @@ if ( !class_exists( 'LibBookSearch' ) ) {
 	}
 
 
-
+	// to inserts dummy data on plugin activation 
 	function jal_install_data() 
 	{
 		global $wpdb;	
@@ -199,8 +202,11 @@ if ( !class_exists( 'LibBookSearch' ) ) {
 		}
 	}
 
+
+	// to register function twith activation hook
 	register_activation_hook( __FILE__, 'jal_install' );
 	register_activation_hook( __FILE__, 'jal_install_data' );
+	
 	
 	// deactivation
 	require_once plugin_dir_path( __FILE__ ) . 'inc/libbooksearch-plugin-deactivate.php';

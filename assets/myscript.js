@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
   // code for submit button 
   $("#search").click(function(){
 
@@ -7,7 +6,6 @@ $(document).ready(function(){
     var author     = $("#author").val();
     var publisher  = $("#publisher").val();
     var rating     = $("#rating").val();
-
     var pricemin   = $("#price-min").val();
     var pricemax   = $("#price-max").val();
     var code       = $("#code").val();
@@ -30,7 +28,7 @@ $(document).ready(function(){
               var JSONObject = JSON.parse(result);
               //console.log(JSONObject);
               //$("#results").html(JSONObject);
-              var rows = "<tr><th>No</th><th>Book Name</th><th>Price</th><th>Auther</th><th>Publisher</th><th>Rating</th></tr>";
+              var rows = "<tr><th>No</th><th>Book Name</th><th>Price</th><th>Author</th><th>Publisher</th><th>Rating</th></tr>";
               var j =1;
               var result = JSONObject;
               if(!result.length)
