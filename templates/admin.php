@@ -6,8 +6,8 @@
 	<div class="col-2">Author      : </div><div class="col-3"><input type="text" id="author" name="author" value="" /></div>
 </div><br>
 <div class="row">
-	<div class="col-2">Publisher : </div> <div class="col-3"><select id="publisher"><option value="">None</option><option value="p1">P1</option><option value="p2">P2</option></select></div>
-	<div class="col-2">Rating    : </div> <div class="col-3"><select id="rating"><option value="">None</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
+	<div class="col-2">Publisher : </div> <div class="col-3"><select id="publisher"><option value="">Please Select an Option</option><option value="p1">P1</option><option value="p2">P2</option></select></div>
+	<div class="col-2">Rating    : </div> <div class="col-3"><select id="rating"><option value="">Please Select an Option</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
 </div><br>
 
 

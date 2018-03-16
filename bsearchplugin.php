@@ -45,15 +45,18 @@ if ( !class_exists( 'LibBookSearch' ) ) {
 
 		}
 
+		// to setup setting links on plugin	
 		public function settings_link( $links ) {
 			$settings_link = '<a href="admin.php?page=libbooksearch-plugin">Settings</a>';
 			array_push( $links, $settings_link );
 			return $links;
 		}
 
+		// to display Book Search plugin on side bar 
 		public function add_admin_pages() {
-			add_menu_page( 'LibBookSearch Plugin', 'BookSearch', 'manage_options', 'libbooksearch_plugin', array( $this, 'admin_index' ), 'dashicons-search', 110 );
+			add_menu_page( 'LibBookSearch Plugin', 'Book Search', 'manage_options', 'libbooksearch_plugin', array( $this, 'admin_index' ), 'dashicons-search', 110 );
 		}
+
 
 		public function admin_index() {
 			require_once plugin_dir_path( __FILE__ ) . 'templates/admin.php';
@@ -67,6 +70,7 @@ if ( !class_exists( 'LibBookSearch' ) ) {
 			register_post_type( 'book', ['public' => true, 'label' => 'Books'] );
 		}
 
+		// to attache css & js files with plugin templat
 		function enqueue() {
 			// enqueue all our scripts
 			wp_enqueue_style( 'mypluginstyle1', plugins_url( '/assets/mystyle.css', __FILE__ ) );
@@ -78,13 +82,14 @@ if ( !class_exists( 'LibBookSearch' ) ) {
 			
 		}
 
+		// plugin activate function 
 		function activate() {
 			require_once plugin_dir_path( __FILE__ ) . 'inc/libbooksearch-plugin-activate.php';
 			LibBookSearchPluginActivate::activate();
 		}
 
 
-
+		// this function handles search submit results 
 		function my_ajax_handler()
 		{
 		    global $wpdb;
@@ -94,13 +99,15 @@ if ( !class_exists( 'LibBookSearch' ) ) {
 				$where = "1";
 				if(isset($_POST["bname"]) && $_POST["bname"] != "")
 				{
+					$_POST["bname"] = preg_replace('/[^A-Za-z0-9\-]/', '', $_POST["bname"]); // Removes special chars.
 					$where .= " and book_title ='".$_POST["bname"]."'";
 				}
-
-				$where .= (isset($_POST["desc"]) && $_POST["desc"] != '')? " and desc   ='".$_POST["desc"]."'" : '' ;
+				$_POST["author"]    = preg_replace('/[^A-Za-z0-9\-]/', '', $_POST["author"]);
+				$_POST["publisher"] = preg_replace('/[^A-Za-z0-9\-]/', '', $_POST["publisher"]);
+				//$where .= (isset($_POST["desc"]) && $_POST["desc"] != '')? " and desc   ='".$_POST["desc"]."'" : '' ;
 				$where .= (isset($_POST["pricemin"])  && isset($_POST["pricemax"])  && $_POST["pricemin"] != '' && $_POST["pricemax"] != '')? " and price  >= '".$_POST["pricemin"]."' and price <= '".$_POST["pricemax"]."'" : '';
 				$where .= (isset($_POST["author"]) && $_POST["author" ] != '') ? " and author ='".$_POST["author"]."'" : '';
-				$where .= (isset($_POST["rating"]) && $_POST["rating"] != '') ? " and rating ='".$_POST["rating"]."'" : '';
+				$where .= (isset($_POST["rating"]) && $_POST["rating"] != '') ? " and rating ='".preg_replace('/[^0-9]/', '', $_POST["rating"])."'" : '';
 				$where .= (isset($_POST["publisher"]) && $_POST["publisher"] != '') ? " and publisher ='".$_POST["publisher"]."'" : '';
 								 		
 			    $books = $wpdb->get_results("SELECT * FROM wp_books where ".$where);
@@ -154,6 +161,7 @@ if ( !class_exists( 'LibBookSearch' ) ) {
 
 		add_option( 'jal_db_version', $jal_db_version );
 	}
+
 
 
 	function jal_install_data() 

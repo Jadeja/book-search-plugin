@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+  // code for submit button 
   $("#search").click(function(){
 
     var bname      = $("#bname").val();
@@ -11,12 +12,14 @@ $(document).ready(function(){
     var pricemax   = $("#price-max").val();
     var code       = $("#code").val();
 
+    // validation for form
     if(bname == "" && author == "" && publisher == "" && rating == "" && pricemin == "" && pricemax == "")
     {
       alert("Please select an option");
       return 0;      
     }
 
+    // ajax call to fetch record based on inforamtions
     $.ajax({
           type:"POST",
           url: "admin-ajax.php",
