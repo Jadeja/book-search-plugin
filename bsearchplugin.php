@@ -27,7 +27,8 @@ Copyright 2005-2015 Automattic, Inc.
 
 defined( 'ABSPATH' ) or die( 'Hey, what are you doing here? You silly human!' );
 
-if ( !class_exists( 'LibBookSearch' ) ) {
+if ( !class_exists( 'LibBookSearch' ) ) 
+{
 	class LibBookSearch
 	{
 		public $plugin;		
@@ -89,38 +90,34 @@ if ( !class_exists( 'LibBookSearch' ) ) {
 		}
 
 
+		protected function ajax_function2()
+		{
+		    global $wpdb;
+			$where = "1";
+			if(isset($_POST["bname"]) && $_POST["bname"] != "")
+			{
+				$_POST["bname"] = preg_replace('/[^A-Za-z0-9\-]/', '', $_POST["bname"]); // Removes special chars.
+				$where .= " and book_title ='".$_POST["bname"]."'";
+			}
+			$_POST["author"]    = preg_replace('/[^A-Za-z0-9\-]/', '', $_POST["author"]);
+			$_POST["publisher"] = preg_replace('/[^A-Za-z0-9\-]/', '', $_POST["publisher"]);
+			//$where .= (isset($_POST["desc"]) && $_POST["desc"] != '')? " and desc   ='".$_POST["desc"]."'" : '' ;
+			$where .= (isset($_POST["pricemin"])  && isset($_POST["pricemax"])  && $_POST["pricemin"] != '' && $_POST["pricemax"] != '')? " and price  >= '".$_POST["pricemin"]."' and price <= '".$_POST["pricemax"]."'" : '';
+			$where .= (isset($_POST["author"]) && $_POST["author" ] != '') ? " and author ='".$_POST["author"]."'" : '';
+			$where .= (isset($_POST["rating"]) && $_POST["rating"] != '') ? " and rating ='".preg_replace('/[^0-9]/', '', $_POST["rating"])."'" : '';
+			$where .= (isset($_POST["publisher"]) && $_POST["publisher"] != '') ? " and publisher ='".$_POST["publisher"]."'" : '';
+							 		
+		    $books = $wpdb->get_results("SELECT * FROM wp_books where ".$where);
+		    echo json_encode($books);
+		    wp_die();
+		}
+
 		// this function handles search submit results 
 		function my_ajax_handler()
 		{
-		    global $wpdb;
-		    //if(isset($_POST["code"]))
-		    //if($_POST["code"] == $_SESSION["code"])
-		    //{
-				$where = "1";
-				if(isset($_POST["bname"]) && $_POST["bname"] != "")
-				{
-					$_POST["bname"] = preg_replace('/[^A-Za-z0-9\-]/', '', $_POST["bname"]); // Removes special chars.
-					$where .= " and book_title ='".$_POST["bname"]."'";
-				}
-				$_POST["author"]    = preg_replace('/[^A-Za-z0-9\-]/', '', $_POST["author"]);
-				$_POST["publisher"] = preg_replace('/[^A-Za-z0-9\-]/', '', $_POST["publisher"]);
-				//$where .= (isset($_POST["desc"]) && $_POST["desc"] != '')? " and desc   ='".$_POST["desc"]."'" : '' ;
-				$where .= (isset($_POST["pricemin"])  && isset($_POST["pricemax"])  && $_POST["pricemin"] != '' && $_POST["pricemax"] != '')? " and price  >= '".$_POST["pricemin"]."' and price <= '".$_POST["pricemax"]."'" : '';
-				$where .= (isset($_POST["author"]) && $_POST["author" ] != '') ? " and author ='".$_POST["author"]."'" : '';
-				$where .= (isset($_POST["rating"]) && $_POST["rating"] != '') ? " and rating ='".preg_replace('/[^0-9]/', '', $_POST["rating"])."'" : '';
-				$where .= (isset($_POST["publisher"]) && $_POST["publisher"] != '') ? " and publisher ='".$_POST["publisher"]."'" : '';
-								 		
-			    $books = $wpdb->get_results("SELECT * FROM wp_books where ".$where);
-			    echo json_encode($books);
-			    wp_die();
-			//}
-			/*		else
-			{
-				echo $_SESSION["code"];
-				echo "something is wrong !!";
-			}*/
+			$this->ajax_function2();
 		}
-}
+    }
 
 	$LibBookSearchPlugin = new LibBookSearch();
 	$LibBookSearchPlugin->register();
@@ -129,9 +126,9 @@ if ( !class_exists( 'LibBookSearch' ) ) {
 	register_activation_hook( __FILE__, array( $LibBookSearchPlugin, 'activate' ) );
 
 	// for form CSRF 
-	 $_SESSION["code"] = uniqid();
-	 
+	 $_SESSION["code"] = uniqid();	 
 	 $jal_db_version = '1.0';
+
 	 
 	// to create table on plugin activation 
 	function jal_install() 
