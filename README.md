@@ -17,6 +17,6 @@ Upload the book-search-plugin to your wp-content/plugins directory and Activate 
 
 == How it Works ? ==
 
-When User clicks on Book Search Menu. A search form Page shows up wher user can search book by book title, author name, publisher, rating and price range. Its sample pluging with dummy data. 
+When User clicks on Book Search Menu. A search form Page shows up wher user can search book by book title, author name, publisher, rating and price range. Its sample pluging with testing data. 
 
 
